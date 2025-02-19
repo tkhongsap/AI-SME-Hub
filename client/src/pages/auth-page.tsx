@@ -16,7 +16,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import { Loader2 } from "lucide-react";
-import { SiGoogle, SiGithub } from "react-icons/si";
+import { SiGoogle, SiFacebook, SiApple } from "react-icons/si";
 import { Redirect } from "wouter";
 
 export default function AuthPage() {
@@ -70,10 +70,18 @@ export default function AuthPage() {
               <Button 
                 variant="outline" 
                 className="gap-2"
-                onClick={() => handleSocialLogin('github')}
+                onClick={() => handleSocialLogin('facebook')}
               >
-                <SiGithub className="w-4 h-4" />
-                Continue with GitHub
+                <SiFacebook className="w-4 h-4" />
+                Continue with Facebook
+              </Button>
+              <Button 
+                variant="outline" 
+                className="gap-2"
+                onClick={() => handleSocialLogin('apple')}
+              >
+                <SiApple className="w-4 h-4" />
+                Continue with Apple
               </Button>
             </div>
 
@@ -83,7 +91,7 @@ export default function AuthPage() {
               </div>
               <div className="relative flex justify-center text-xs uppercase">
                 <span className="bg-background px-2 text-muted-foreground">
-                  Or continue with
+                  Or continue with email
                 </span>
               </div>
             </div>
@@ -218,7 +226,7 @@ export default function AuthPage() {
             </div>
             <div className="flex items-start gap-4">
               <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center shrink-0">
-                <SiGithub className="w-4 h-4" />
+                <SiApple className="w-4 h-4" />
               </div>
               <div>
                 <h3 className="font-semibold">Business Analytics</h3>
