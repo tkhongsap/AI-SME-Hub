@@ -15,6 +15,33 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
+const quickStartCards = [
+  {
+    title: "Create a form",
+    description: "Build forms to capture leads fast",
+    duration: "About 5 mins",
+    route: "/forms",
+    actionText: "Create form",
+    skipText: "Remind me later"
+  },
+  {
+    title: "Start building your website",
+    description: "Launch a custom site with AI help",
+    duration: "About 5 mins",
+    route: "/website-builder",
+    actionText: "Build website",
+    skipText: "Remind me later"
+  },
+  {
+    title: "Connect & create ads",
+    description: "Target audiences and drive high-intent traffic",
+    duration: "About 5 mins",
+    route: "/marketing",
+    actionText: "Create ads",
+    skipText: "Remind me later"
+  }
+];
+
 const mockStats = [
   {
     title: "Total Visitors",
@@ -44,33 +71,6 @@ const mockStats = [
     icon: BarChart2,
     trend: { value: -0.5, label: "vs last month" },
   },
-];
-
-const quickStartCards = [
-  {
-    title: "Create a form",
-    description: "Build forms to capture leads fast",
-    duration: "About 5 mins",
-    route: "/forms",
-    actionText: "Create form",
-    skipText: "Remind me later"
-  },
-  {
-    title: "Start building your website",
-    description: "Launch a custom site with AI help",
-    duration: "About 5 mins",
-    route: "/website-builder",
-    actionText: "Build website",
-    skipText: "Remind me later"
-  },
-  {
-    title: "Connect & create ads",
-    description: "Target audiences and drive high-intent traffic",
-    duration: "About 5 mins",
-    route: "/marketing",
-    actionText: "Create ads",
-    skipText: "Remind me later"
-  }
 ];
 
 const mockRecommendations = [
@@ -130,8 +130,9 @@ export default function Dashboard() {
             <div className="grid gap-4 sm:gap-6 mb-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
               {quickStartCards.map((card, index) => (
                 <Card key={index} className={cn(
-                  index === 0 ? "border-primary border-2" : "",
-                  "transition-transform hover:scale-[1.02]"
+                  "transition-all duration-300",
+                  "hover:scale-[1.02] hover:shadow-lg hover:border-primary",
+                  "cursor-pointer"
                 )}>
                   <CardContent className="p-4 md:p-6 space-y-4">
                     <div className="space-y-2">
