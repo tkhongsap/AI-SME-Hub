@@ -17,10 +17,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import { Loader2 } from "lucide-react";
 import { SiGoogle, SiFacebook, SiApple } from "react-icons/si";
-import { Redirect } from "wouter";
+import { Redirect, useLocation } from "wouter";
+import React from 'react';
 
 export default function AuthPage() {
   const { user, loginMutation, registerMutation } = useAuth();
+  const [, setLocation] = useLocation();
 
   const loginForm = useForm<InsertUser>({
     resolver: zodResolver(insertUserSchema),
@@ -41,6 +43,16 @@ export default function AuthPage() {
   const handleSocialLogin = (provider: string) => {
     console.log(`${provider} login clicked`);
   };
+
+  // Redirect based on mutation success
+  React.useEffect(() => {
+    if (loginMutation.isSuccess) {
+      setLocation('/welcome-back');
+    }
+    if (registerMutation.isSuccess) {
+      setLocation('/welcome');
+    }
+  }, [loginMutation.isSuccess, registerMutation.isSuccess, setLocation]);
 
   if (user) {
     return <Redirect to="/dashboard" />;

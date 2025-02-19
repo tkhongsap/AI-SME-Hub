@@ -7,6 +7,8 @@ import HomePage from "@/pages/home-page";
 import NotFound from "@/pages/not-found";
 import AuthPage from "@/pages/auth-page";
 import Dashboard from "@/pages/dashboard";
+import Welcome from "@/pages/welcome";
+import WelcomeBack from "@/pages/welcome-back";
 import WebsiteBuilder from "@/pages/website-builder";
 import Marketing from "@/pages/marketing";
 import Analytics from "@/pages/analytics";
@@ -17,6 +19,8 @@ function Router() {
     <Switch>
       <Route path="/" component={HomePage} />
       <Route path="/auth" component={AuthPage} />
+      <ProtectedRoute path="/welcome" component={Welcome} />
+      <ProtectedRoute path="/welcome-back" component={WelcomeBack} />
       <ProtectedRoute path="/dashboard" component={Dashboard} />
       <ProtectedRoute path="/website-builder" component={WebsiteBuilder} />
       <ProtectedRoute path="/marketing" component={Marketing} />
