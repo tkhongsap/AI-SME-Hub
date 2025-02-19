@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { insertWebsiteSchema, InsertWebsite } from "@shared/schema"; // Assuming InsertWebsite type is exported here
+import { insertWebsiteSchema, InsertWebsite } from "@shared/schema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { apiRequest, queryClient } from "@/lib/queryClient";
@@ -15,6 +15,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
@@ -27,22 +28,57 @@ import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
 
 const templates = [
-  { id: "modern", name: "Modern Business" },
-  { id: "ecommerce", name: "E-Commerce" },
-  { id: "portfolio", name: "Portfolio" },
-  { id: "blog", name: "Blog" },
+  { 
+    id: "professional",
+    name: "Professional Business",
+    description: "Clean and modern design perfect for service-based businesses",
+    sections: ["About", "Services", "Team", "Contact"]
+  },
+  { 
+    id: "retail",
+    name: "Retail & Products",
+    description: "Showcase your products with beautiful galleries and easy navigation",
+    sections: ["Products", "About", "Locations", "Contact"]
+  },
+  { 
+    id: "service",
+    name: "Service Provider",
+    description: "Highlight your expertise and services with testimonials",
+    sections: ["Services", "Portfolio", "Testimonials", "Contact"]
+  },
+  { 
+    id: "restaurant",
+    name: "Restaurant & Café",
+    description: "Perfect for menus, locations, and online ordering",
+    sections: ["Menu", "About", "Locations", "Contact"]
+  }
 ];
 
 const colorSchemes = [
-  { id: "blue", colors: ["#1E40AF", "#60A5FA", "#EFF6FF"] },
-  { id: "green", colors: ["#065F46", "#34D399", "#ECFDF5"] },
-  { id: "purple", colors: ["#5B21B6", "#A78BFA", "#F5F3FF"] },
+  { 
+    id: "professional",
+    name: "Professional",
+    colors: ["#1E40AF", "#60A5FA", "#EFF6FF"],
+    description: "Clean and trustworthy"
+  },
+  { 
+    id: "modern",
+    name: "Modern",
+    colors: ["#065F46", "#34D399", "#ECFDF5"],
+    description: "Fresh and innovative"
+  },
+  { 
+    id: "elegant",
+    name: "Elegant",
+    colors: ["#5B21B6", "#A78BFA", "#F5F3FF"],
+    description: "Sophisticated and premium"
+  }
 ];
 
 export default function WebsiteBuilder() {
   const [step, setStep] = useState(1);
   const { toast } = useToast();
-  const form = useForm<InsertWebsite>({ // Type added here
+  const form = useForm<InsertWebsite>({
     resolver: zodResolver(insertWebsiteSchema),
     defaultValues: {
       name: "",
@@ -50,13 +86,23 @@ export default function WebsiteBuilder() {
       settings: {
         colors: [],
         fonts: ["Inter"],
+        logo: "",
+        businessInfo: {
+          company: "",
+          tagline: "",
+          description: "",
+          email: "",
+          phone: "",
+          facebook: "",
+          instagram: ""
+        }
       },
-      userId: 0, // Added userId
+      userId: 0,
     },
   });
 
   const createWebsiteMutation = useMutation({
-    mutationFn: async (data) => {
+    mutationFn: async (data: InsertWebsite) => {
       const res = await apiRequest("POST", "/api/websites", data);
       return res.json();
     },
@@ -68,10 +114,6 @@ export default function WebsiteBuilder() {
       });
     },
   });
-
-  const onSubmit = (data) => {
-    createWebsiteMutation.mutate(data);
-  };
 
   return (
     <div className="flex h-screen bg-background">
@@ -88,11 +130,11 @@ export default function WebsiteBuilder() {
           <div className="max-w-3xl mx-auto">
             <div className="mb-8">
               <div className="flex justify-between items-center">
-                {[1, 2, 3].map((s) => (
+                {[1, 2, 3, 4].map((s) => (
                   <div
                     key={s}
                     className={`flex items-center ${
-                      s < 3 ? "flex-1" : ""
+                      s < 4 ? "flex-1" : ""
                     }`}
                   >
                     <div
@@ -104,7 +146,7 @@ export default function WebsiteBuilder() {
                     >
                       {s}
                     </div>
-                    {s < 3 && (
+                    {s < 4 && (
                       <div
                         className={`flex-1 h-1 mx-2 ${
                           step > s ? "bg-primary" : "bg-muted"
@@ -114,87 +156,199 @@ export default function WebsiteBuilder() {
                   </div>
                 ))}
               </div>
-              <div className="flex justify-between mt-2">
-                <span className="text-sm">Basic Info</span>
-                <span className="text-sm">Styling</span>
-                <span className="text-sm">Preview</span>
+              <div className="flex justify-between mt-2 text-sm">
+                <span>Template</span>
+                <span>Business Info</span>
+                <span>Design</span>
+                <span>Preview</span>
               </div>
             </div>
 
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              <form onSubmit={form.handleSubmit((data) => createWebsiteMutation.mutate(data))} className="space-y-6">
                 {step === 1 && (
+                  <div className="space-y-6">
+                    <FormField
+                      control={form.control}
+                      name="name"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Website Name</FormLabel>
+                          <FormControl>
+                            <Input {...field} placeholder="My Business Website" />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <div className="grid grid-cols-2 gap-4">
+                      {templates.map((template) => (
+                        <Card
+                          key={template.id}
+                          className={`cursor-pointer transition-all ${
+                            form.watch("template") === template.id
+                              ? "border-primary"
+                              : ""
+                          }`}
+                          onClick={() => form.setValue("template", template.id)}
+                        >
+                          <CardContent className="p-4">
+                            <h3 className="font-semibold mb-2">{template.name}</h3>
+                            <p className="text-sm text-muted-foreground mb-4">
+                              {template.description}
+                            </p>
+                            <div className="text-sm text-muted-foreground">
+                              <strong>Includes:</strong>
+                              <div className="flex flex-wrap gap-2 mt-2">
+                                {template.sections.map((section) => (
+                                  <span
+                                    key={section}
+                                    className="bg-muted px-2 py-1 rounded-md text-xs"
+                                  >
+                                    {section}
+                                  </span>
+                                ))}
+                              </div>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {step === 2 && (
                   <Card>
-                    <CardContent className="p-6">
+                    <CardContent className="p-6 space-y-6">
                       <FormField
                         control={form.control}
-                        name="name"
+                        name="settings.businessInfo.company"
                         render={({ field }) => (
-                          <FormItem className="mb-4">
-                            <FormLabel>Website Name</FormLabel>
+                          <FormItem>
+                            <FormLabel>Company Name</FormLabel>
                             <FormControl>
-                              <Input {...field} />
+                              <Input {...field} placeholder="Your Company Name" />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
                         )}
                       />
+
                       <FormField
                         control={form.control}
-                        name="template"
+                        name="settings.businessInfo.tagline"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Template</FormLabel>
-                            <Select
-                              onValueChange={field.onChange}
-                              value={field.value}
-                            >
-                              <FormControl>
-                                <SelectTrigger>
-                                  <SelectValue placeholder="Select a template" />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent>
-                                {templates.map((template) => (
-                                  <SelectItem
-                                    key={template.id}
-                                    value={template.id}
-                                  >
-                                    {template.name}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
+                            <FormLabel>Tagline</FormLabel>
+                            <FormControl>
+                              <Input {...field} placeholder="Your business tagline" />
+                            </FormControl>
                             <FormMessage />
                           </FormItem>
                         )}
                       />
+
+                      <FormField
+                        control={form.control}
+                        name="settings.businessInfo.description"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Business Description</FormLabel>
+                            <FormControl>
+                              <Textarea {...field} placeholder="Tell us about your business..." />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <div className="grid grid-cols-2 gap-4">
+                        <FormField
+                          control={form.control}
+                          name="settings.businessInfo.email"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Business Email</FormLabel>
+                              <FormControl>
+                                <Input {...field} type="email" placeholder="contact@yourbusiness.com" />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        <FormField
+                          control={form.control}
+                          name="settings.businessInfo.phone"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Phone Number</FormLabel>
+                              <FormControl>
+                                <Input {...field} placeholder="+1 (555) 123-4567" />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-4">
+                        <FormField
+                          control={form.control}
+                          name="settings.businessInfo.facebook"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Facebook URL</FormLabel>
+                              <FormControl>
+                                <Input {...field} placeholder="facebook.com/yourbusiness" />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        <FormField
+                          control={form.control}
+                          name="settings.businessInfo.instagram"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Instagram Handle</FormLabel>
+                              <FormControl>
+                                <Input {...field} placeholder="@yourbusiness" />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
                     </CardContent>
                   </Card>
                 )}
 
-                {step === 2 && (
+                {step === 3 && (
                   <Card>
-                    <CardContent className="p-6">
-                      <div className="space-y-6">
-                        <div>
-                          <h3 className="text-lg font-medium mb-4">
-                            Color Scheme
-                          </h3>
-                          <div className="grid grid-cols-3 gap-4">
-                            {colorSchemes.map((scheme) => (
-                              <button
-                                key={scheme.id}
-                                type="button"
-                                className="p-4 border rounded-lg hover:border-primary focus:outline-none focus:ring-2 focus:ring-primary"
-                                onClick={() => {
-                                  const currentSettings = form.getValues('settings') || {};
-                                  form.setValue('settings', {
-                                    ...currentSettings,
-                                    colors: scheme.colors
-                                  });
-                                }} //Updated onClick handler
-                              >
+                    <CardContent className="p-6 space-y-6">
+                      <div>
+                        <h3 className="text-lg font-medium mb-4">Color Scheme</h3>
+                        <div className="grid grid-cols-3 gap-4">
+                          {colorSchemes.map((scheme) => (
+                            <button
+                              key={scheme.id}
+                              type="button"
+                              className={`p-4 border rounded-lg hover:border-primary focus:outline-none focus:ring-2 focus:ring-primary ${
+                                form.watch("settings.colors")?.[0] === scheme.colors[0]
+                                  ? "border-primary"
+                                  : ""
+                              }`}
+                              onClick={() => {
+                                form.setValue("settings", {
+                                  ...form.getValues("settings"),
+                                  colors: scheme.colors,
+                                });
+                              }}
+                            >
+                              <div className="space-y-2">
                                 <div className="flex gap-2">
                                   {scheme.colors.map((color) => (
                                     <div
@@ -204,22 +358,72 @@ export default function WebsiteBuilder() {
                                     />
                                   ))}
                                 </div>
-                              </button>
-                            ))}
-                          </div>
+                                <div className="text-sm font-medium">{scheme.name}</div>
+                                <div className="text-xs text-muted-foreground">
+                                  {scheme.description}
+                                </div>
+                              </div>
+                            </button>
+                          ))}
                         </div>
                       </div>
+
+                      <FormField
+                        control={form.control}
+                        name="settings.logo"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Logo URL (Optional)</FormLabel>
+                            <FormControl>
+                              <Input {...field} placeholder="https://yourbusiness.com/logo.png" />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
                     </CardContent>
                   </Card>
                 )}
 
-                {step === 3 && (
+                {step === 4 && (
                   <Card>
                     <CardContent className="p-6">
-                      <div className="aspect-video bg-muted rounded-lg flex items-center justify-center mb-6">
-                        <p className="text-muted-foreground">
-                          Website Preview (Mockup)
-                        </p>
+                      <div className="aspect-video bg-muted rounded-lg flex items-center justify-center mb-6 p-4">
+                        <div className="max-w-2xl w-full">
+                          <div 
+                            className="h-16 mb-8 rounded"
+                            style={{ 
+                              backgroundColor: form.watch("settings.colors")?.[0] || '#1E40AF',
+                              color: '#ffffff'
+                            }}
+                          >
+                            <div className="container mx-auto h-full flex items-center justify-between px-4">
+                              <div className="font-bold">
+                                {form.watch("settings.businessInfo.company") || "Your Company"}
+                              </div>
+                              <div className="flex gap-4 text-sm">
+                                {templates
+                                  .find(t => t.id === form.watch("template"))
+                                  ?.sections.map(section => (
+                                    <div key={section} className="cursor-pointer hover:opacity-80">
+                                      {section}
+                                    </div>
+                                  ))
+                                }
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="text-center py-12 space-y-4">
+                            <h1 className="text-3xl font-bold">
+                              {form.watch("settings.businessInfo.tagline") || "Your Business Tagline"}
+                            </h1>
+                            <p className="text-muted-foreground max-w-lg mx-auto">
+                              {form.watch("settings.businessInfo.description") || 
+                               "Your business description will appear here, highlighting your unique value proposition and services."}
+                            </p>
+                          </div>
+                        </div>
                       </div>
                     </CardContent>
                   </Card>
@@ -235,7 +439,7 @@ export default function WebsiteBuilder() {
                       Previous
                     </Button>
                   )}
-                  {step < 3 ? (
+                  {step < 4 ? (
                     <Button
                       type="button"
                       onClick={() => setStep(step + 1)}
