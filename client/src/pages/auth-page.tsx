@@ -26,7 +26,11 @@ export default function AuthPage() {
 
   const loginForm = useForm<InsertUser>({
     resolver: zodResolver(insertUserSchema),
-    defaultValues: { username: "", password: "" },
+    defaultValues: {
+      username: "xyz@gmail.com",
+      password: "password",
+      companyName: "XYZ Company"
+    },
   });
 
   const registerForm = useForm<InsertUser>({
@@ -41,7 +45,12 @@ export default function AuthPage() {
 
   // Mockup: These would be implemented with actual OAuth later
   const handleSocialLogin = (provider: string) => {
-    console.log(`${provider} login clicked`);
+    // For demo, directly login when clicking social buttons
+    loginMutation.mutate({
+      username: "xyz@gmail.com",
+      password: "password",
+      companyName: "XYZ Company"
+    });
   };
 
   // Redirect based on mutation success
@@ -124,7 +133,7 @@ export default function AuthPage() {
                         <FormItem>
                           <FormLabel>Email</FormLabel>
                           <FormControl>
-                            <Input type="email" placeholder="you@company.com" {...field} />
+                            <Input type="email" placeholder="xyz@gmail.com" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>

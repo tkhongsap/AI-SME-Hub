@@ -12,6 +12,12 @@ export default function WelcomeBack() {
     return <Redirect to="/auth" />;
   }
 
+  // For demo purposes, we'll use hardcoded values
+  const demoUser = {
+    companyName: "XYZ Company",
+    username: "xyz@gmail.com"
+  };
+
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
       <div className="max-w-md w-full space-y-8">
@@ -27,16 +33,16 @@ export default function WelcomeBack() {
             <Avatar className="h-24 w-24">
               <AvatarImage src="/avatar-placeholder.png" />
               <AvatarFallback className="text-lg">
-                {user.companyName?.charAt(0) || 'X'}
+                X
               </AvatarFallback>
             </Avatar>
 
             <div className="text-center space-y-2">
               <h2 className="text-2xl font-semibold">
-                {user.companyName || "XYZ Company"}
+                {demoUser.companyName}
               </h2>
               <p className="text-muted-foreground">
-                {user.username}
+                {demoUser.username}
               </p>
             </div>
 
