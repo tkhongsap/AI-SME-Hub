@@ -54,11 +54,12 @@ export function setupAuth(app: Express) {
       async (username, password, done) => {
         try {
           // For testing purposes, allow the hardcoded credentials
-          if (username === 'ta.khongsap@gmail.com' && password === '1234') {
+          if (username === 'xyz@gmail.com' && password === 'password') {
             return done(null, {
               id: 1,
-              username: 'ta.khongsap@gmail.com',
-              companyName: 'Test Company',
+              username: 'xyz@gmail.com',
+              password: await hashPassword('password'), // Adding password for type compatibility
+              companyName: 'XYZ Company',
               industry: 'Technology'
             });
           }
@@ -91,8 +92,9 @@ export function setupAuth(app: Express) {
       if (id === 1) {
         return done(null, {
           id: 1,
-          username: 'ta.khongsap@gmail.com',
-          companyName: 'Test Company',
+          username: 'xyz@gmail.com',
+          password: await hashPassword('password'), // Adding password for type compatibility
+          companyName: 'XYZ Company',
           industry: 'Technology'
         });
       }
