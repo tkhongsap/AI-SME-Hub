@@ -72,6 +72,27 @@ const quickStartCards = [
   }
 ];
 
+const mockRecommendations = [
+  {
+    title: "Optimize Your Homepage",
+    description: "Our AI analysis suggests adding more compelling calls-to-action to increase conversions by up to 25%.",
+    impact: "Medium",
+    type: "website" as const,
+  },
+  {
+    title: "Launch Email Campaign",
+    description: "AI-powered analysis shows your customers haven't heard from you in 30 days. Engaging now could boost retention.",
+    impact: "High",
+    type: "marketing" as const,
+  },
+  {
+    title: "Review Analytics",
+    description: "AI detected a 15% increase in bounce rate. Let's investigate and optimize user experience.",
+    impact: "High",
+    type: "analytics" as const,
+  },
+];
+
 export default function Dashboard() {
   const { toast } = useToast();
   const [, setLocation] = useLocation();
@@ -86,8 +107,8 @@ export default function Dashboard() {
 
   const handleRecommendationAction = () => {
     toast({
-      title: "Action Taken",
-      description: "We'll help you implement this recommendation.",
+      title: "AI Action Initiated",
+      description: "Our AI is analyzing your data to implement this recommendation.",
     });
   };
 
@@ -132,12 +153,28 @@ export default function Dashboard() {
             ))}
           </div>
 
+          {/* Stats Section */}
           <div className="grid gap-6 mb-8 md:grid-cols-2 lg:grid-cols-4">
             {mockStats.map((stat) => (
               <StatsCard key={stat.title} {...stat} />
             ))}
           </div>
 
+          {/* AI Recommendations Section */}
+          <div className="mb-8">
+            <h2 className="text-xl font-semibold mb-4">AI Recommendations</h2>
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {mockRecommendations.map((recommendation) => (
+                <AIRecommendationCard
+                  key={recommendation.title}
+                  {...recommendation}
+                  onAction={handleRecommendationAction}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Recent Activity Section */}
           <div className="grid gap-6 md:grid-cols-2">
             <div>
               <h2 className="text-lg font-semibold mb-4">Recent Websites</h2>
