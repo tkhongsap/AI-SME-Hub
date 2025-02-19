@@ -1,5 +1,6 @@
 import { Link, useLocation } from "wouter";
 import { cn } from "@/lib/utils";
+import * as Collapsible from '@radix-ui/react-collapsible';
 import {
   LayoutDashboard,
   Users,
@@ -13,7 +14,9 @@ import {
   Building2,
   MessageSquare,
   FolderKanban,
+  ChevronRight,
 } from "lucide-react";
+import { useState } from "react";
 
 const navigation = [
   {
@@ -58,6 +61,15 @@ const navigation = [
 
 export default function Sidebar() {
   const [location] = useLocation();
+  const [openSections, setOpenSections] = useState<string[]>([]);
+
+  const toggleSection = (section: string) => {
+    setOpenSections(prev => 
+      prev.includes(section)
+        ? prev.filter(s => s !== section)
+        : [...prev, section]
+    );
+  };
 
   return (
     <div className="flex h-full flex-col bg-sidebar border-r">
@@ -69,11 +81,22 @@ export default function Sidebar() {
       <div className="flex-1 flex flex-col overflow-y-auto">
         <nav className="flex-1 px-2 py-4 space-y-8">
           {navigation.map((section) => (
-            <div key={section.section} className="space-y-2">
-              <h2 className="px-2 text-lg font-semibold text-sidebar-foreground">
-                {section.section}
-              </h2>
-              <div className="space-y-1">
+            <Collapsible.Root
+              key={section.section}
+              open={openSections.includes(section.section)}
+              onOpenChange={() => toggleSection(section.section)}
+              className="space-y-2"
+            >
+              <Collapsible.Trigger className="flex items-center w-full px-2 text-lg font-semibold text-sidebar-foreground group">
+                <ChevronRight 
+                  className={cn(
+                    "h-5 w-5 transition-transform duration-200",
+                    openSections.includes(section.section) && "transform rotate-90"
+                  )} 
+                />
+                <span className="ml-2">{section.section}</span>
+              </Collapsible.Trigger>
+              <Collapsible.Content className="space-y-1">
                 {section.items.map((item) => {
                   const isActive = location === item.href;
                   return (
@@ -81,7 +104,7 @@ export default function Sidebar() {
                       key={item.name}
                       href={item.href}
                       className={cn(
-                        "group flex items-center px-2 py-2 text-sm font-medium rounded-md",
+                        "group flex items-center px-2 py-2 text-sm font-medium rounded-md ml-7",
                         isActive
                           ? "bg-sidebar-accent text-sidebar-accent-foreground"
                           : "text-sidebar-foreground hover:bg-sidebar-accent/50"
@@ -99,8 +122,8 @@ export default function Sidebar() {
                     </Link>
                   );
                 })}
-              </div>
-            </div>
+              </Collapsible.Content>
+            </Collapsible.Root>
           ))}
         </nav>
       </div>
