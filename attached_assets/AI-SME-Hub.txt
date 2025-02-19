@@ -1,0 +1,203 @@
+Below is a **compact yet comprehensive requirements and design document** for a **mockup web application** that aims to showcase your **AI-powered SME platform**. The **look and feel** should be similar to **HubSpot**—clean, modern, and professional. This document is written for **designers and developers** who will be creating the **mockup**.
+
+---
+
+# **1. Project Overview**
+
+**Product Name:** (TBD) “AI-SME Hub”  
+**Goal:** Demonstrate the vision of a platform that helps SMEs build an online presence, automate marketing, and access analytics.  
+
+**Key Features to Showcase:**  
+1. **Landing Page**: Clear, engaging introduction to the platform (like HubSpot).  
+2. **Login/Signup**: Quick entry point for SMEs.  
+3. **SME Dashboard**: Centralized hub for managing website creation, marketing automation, and analytics.  
+4. **Website Builder**: AI-assisted website creation flow.  
+5. **Marketing Automation**: Tools for social media, email campaigns, and basic ad generation.  
+6. **Analytics & Insights**: Simple dashboard with performance metrics.  
+7. **AI Chatbot (Optional)**: Quick “help” or “advice” pop-up for user guidance.  
+
+---
+
+# **2. Design Requirements**
+
+## 2.1 Look & Feel
+
+1. **Inspiration**: HubSpot’s design—**clean, minimal, bright** with clear calls to action.  
+2. **Color Palette**:  
+   - **Primary:** A bright accent color (e.g., #FF7A59 – a HubSpot-like orange)  
+   - **Secondary:** Shades of **blue or gray** for backgrounds and UI elements (e.g., #33475B)  
+   - **Neutrals:** Whites (#FFFFFF) and grays (#F5F5F5, #E5E5E5) for backgrounds and borders.  
+3. **Typography**:  
+   - **Primary Font:** A clean, modern sans-serif like **Open Sans, Lato, or Inter**.  
+   - **Headings:** Bold, slightly larger than body text.  
+   - **Body Text:** Legible, standard weight.  
+4. **Imagery & Icons**:  
+   - **Illustrations** or **abstract shapes** for key sections (similar to HubSpot’s brand).  
+   - Minimal use of stock photos, focus on **clean icons** and subtle animations.
+
+---
+
+## 2.2 Layout & Navigation
+
+- **Top Navigation Bar**:  
+  - **Logo** (top-left)  
+  - **Links**: “Features,” “Pricing,” “Resources,” “Login,” “Get Started” (CTA)  
+  - **Responsive**: Collapses into a hamburger menu on mobile.  
+- **Footer**:  
+  - **Links**: “About Us,” “Contact,” “Privacy Policy,” “Terms of Service,” Social Media Icons.
+
+---
+
+# **3. Page-by-Page Requirements**
+
+## 3.1 Landing Page
+
+**Purpose**: Showcase the product’s key value propositions and drive signups.  
+1. **Hero Section**  
+   - Big headline: “Empower Your SME with AI-Driven Growth”  
+   - Subtext: “Build your online presence, automate marketing, and get insights—all in one platform.”  
+   - CTA Buttons: “Get Started Free” and “Schedule a Demo”  
+   - **Visual**: An illustration or a minimal mock screenshot of the dashboard.  
+2. **Key Features Section**  
+   - **Website Builder**: AI-driven site creation.  
+   - **Marketing Automation**: Social media, email campaigns, ads.  
+   - **Analytics & Insights**: Performance metrics.  
+   - **AI Chatbot**: Quick guidance and recommendations.  
+   - Use **iconography** to represent each feature.  
+3. **Testimonials / Success Stories**  
+   - Carousel or grid with **3–4 SME success quotes**.  
+4. **Footer**  
+   - Additional links, disclaimers, and social media icons.
+
+---
+
+## 3.2 Login & Signup
+
+1. **Login Page**  
+   - Email & Password fields  
+   - “Forgot Password?” link  
+   - Minimal design with the brand’s primary accent color on the button.  
+2. **Signup Page**  
+   - Basic info: Name, Email, Password  
+   - Optional: Company Name, Industry  
+   - Clear CTA: “Create Account”
+
+---
+
+## 3.3 SME Dashboard (Main App Screen)
+
+**Purpose**: Provide a central hub for SMEs to manage everything.  
+1. **Top Navbar**  
+   - **Logo** or App Name  
+   - **Links**: “Dashboard,” “Website Builder,” “Marketing,” “Analytics,” “Support”  
+   - **User Profile** (avatar, dropdown with settings, logout)  
+2. **Dashboard Widgets**  
+   - **Quick Stats**: Visitors, marketing campaigns, leads.  
+   - **AI Recommendations**: “Improve your homepage text,” “Launch a new email campaign,” etc.  
+   - **Tasks / Notifications**: “You have 2 pending tasks.”  
+
+---
+
+## 3.4 Website Builder
+
+1. **AI-Driven Setup**  
+   - **Step 1**: Industry & brand style inputs (color scheme, brand adjectives, logo upload).  
+   - **Step 2**: AI suggests website template + copy.  
+   - **Step 3**: User reviews and edits content (drag-and-drop or WYSIWYG editor).  
+2. **Preview & Publish**  
+   - Live preview of the website.  
+   - Option to connect a custom domain or use a subdomain (e.g., yourbusiness.ai-smehub.com).
+
+---
+
+## 3.5 Marketing Automation
+
+1. **Social Media Automation**  
+   - **AI Content Suggestions**: Based on SME’s industry and upcoming holidays/events.  
+   - Schedule posts to **Facebook, Instagram, LinkedIn**.  
+2. **Email Campaigns**  
+   - **Templates** for newsletters, promotions, and announcements.  
+   - AI-suggested subject lines and body content.  
+   - Basic segmentation (e.g., existing customers vs. leads).  
+3. **Ad Generator**  
+   - Generate Google or Facebook ad copy.  
+   - Basic budget recommendation and targeting options.  
+
+---
+
+## 3.6 Analytics & Insights
+
+1. **Overview Dashboard**  
+   - **Website Traffic**: Visits, bounce rate, top pages.  
+   - **Marketing Performance**: Email open rates, social engagement.  
+   - **Lead Funnel**: Basic lead capture stats (if relevant).  
+2. **AI Suggestions**  
+   - “Optimize your blog post for more traffic.”  
+   - “Send a follow-up email to inactive customers.”  
+
+---
+
+## 3.7 AI Chatbot (Optional Showcase)
+
+- Floating chatbot icon in bottom-right corner.  
+- Provides **quick tips** or **answers** to user questions about website building or marketing.  
+- For the mockup, show a minimal conversation flow, e.g., “How do I improve my homepage?”
+
+---
+
+# **4. Architecture & AI Strategy (High-Level)**
+
+1. **Frontend**:  
+   - **React or Vue** for dynamic UI.  
+   - **Responsive design** with breakpoints for mobile and tablet.  
+2. **Backend**:  
+   - **Node.js** or **Python (Django/Flask)** for user auth, data storage, and APIs.  
+   - **REST or GraphQL** for data exchange.  
+3. **AI Services**:  
+   - **Text Generation & Recommendations**: Could integrate with **OpenAI API** or a fine-tuned LLM.  
+   - **Basic Analytics**: Collect usage data to power recommendations (marketing suggestions, content ideas).  
+4. **Database**:  
+   - **PostgreSQL / MongoDB** to store user data, site content, marketing campaign details.  
+
+*(Note: For the **mockup**, we only need to illustrate the **UI** and general flow. The actual AI services can be placeholders.)*
+
+---
+
+# **5. Differentiation Strategy**
+
+- **Localization**: Show Thai language options, local currency, local holiday-based content suggestions.  
+- **Ease of Use**: Step-by-step wizard for website creation & marketing setup.  
+- **Automation**: Emphasize AI content suggestions, scheduling, and insights—less manual effort for SMEs.  
+
+---
+
+# **6. Deliverables & Timeline**
+
+1. **Wireframes (Low-Fidelity)**  
+   - **Landing Page**  
+   - **Login/Signup**  
+   - **SME Dashboard**  
+   - **Website Builder**  
+   - **Marketing Automation**  
+   - **Analytics**  
+2. **High-Fidelity Mockups**  
+   - Refined UI with color palette, typography, icons, imagery.  
+3. **Clickable Prototype** (Optional)  
+   - If time permits, create an **interactive Figma/Adobe XD** prototype.  
+
+**Timeline**:  
+- **Day 1 (Morning)**: Wireframe sketches & user flows.  
+- **Day 1 (Afternoon)**: Finalize wireframes & share with stakeholders.  
+- **Day 2**: Create high-fidelity mockups.  
+- **Day 3**: Review & refine based on feedback.  
+
+---
+
+## **Conclusion**
+
+By following this requirement and design document, the dev and design teams can quickly build a **mockup** that **looks and feels** like a polished, **HubSpot-inspired** SaaS platform. It should effectively **showcase the vision** for how SMEs will:  
+1. **Create a website** with AI assistance.  
+2. **Automate marketing** efforts across channels.  
+3. **Monitor analytics** to make data-driven decisions.  
+
+The result will be a **professional, user-friendly mockup** that resonates with potential investors, partners, and early-adopter SMEs—proving your platform’s potential for **AI-driven growth** in the SME sector.
