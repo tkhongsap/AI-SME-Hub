@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 
 const mockStats = [
   {
@@ -48,27 +49,27 @@ const mockStats = [
 const quickStartCards = [
   {
     title: "Create a form",
-    description: "Well-crafted forms collect and manage lead information efficiently to improve scoring quality and conversion rates.",
+    description: "Build forms to capture leads fast",
     duration: "About 5 mins",
     route: "/forms",
     actionText: "Create form",
-    skipText: "Skip for now"
+    skipText: "Remind me later"
   },
   {
     title: "Start building your website",
-    description: "Use AI to generate a single-page website customized to your business, or start from scratch.",
+    description: "Launch a custom site with AI help",
     duration: "About 5 mins",
     route: "/website-builder",
     actionText: "Build website",
-    skipText: "Skip for now"
+    skipText: "Remind me later"
   },
   {
     title: "Connect & create ads",
-    description: "Target specific audiences to generate interest and drive higher-intent traffic to your specialised landing page.",
+    description: "Target audiences and drive high-intent traffic",
     duration: "About 5 mins",
     route: "/marketing",
     actionText: "Create ads",
-    skipText: "Skip for now"
+    skipText: "Remind me later"
   }
 ];
 
@@ -113,100 +114,121 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="flex h-screen bg-background">
+    <div className="flex min-h-screen bg-background">
       <Sidebar />
-      <div className="flex-1 flex flex-col overflow-y-auto">
-        <main className="flex-1 p-6">
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold mb-2">Welcome back!</h1>
-            <p className="text-muted-foreground">
-              Here's what's happening with your business today.
-            </p>
-          </div>
+      <div className="flex-1 flex flex-col overflow-hidden">
+        <main className="flex-1 overflow-y-auto">
+          <div className="container mx-auto p-4 md:p-6 max-w-7xl">
+            <div className="mb-8">
+              <h1 className="text-2xl md:text-3xl font-bold mb-2">Welcome back!</h1>
+              <p className="text-muted-foreground">
+                Here's what's happening with your business today.
+              </p>
+            </div>
 
-          {/* Quick Start Section */}
-          <div className="grid gap-6 mb-8 md:grid-cols-2 lg:grid-cols-3">
-            {quickStartCards.map((card, index) => (
-              <Card key={index} className={index === 0 ? "border-primary border-2" : ""}>
-                <CardContent className="p-6 space-y-4">
-                  <div className="space-y-2">
-                    <h3 className="text-lg font-semibold">{card.title}</h3>
-                    <p className="text-sm text-muted-foreground">{card.description}</p>
-                    <p className="text-sm text-muted-foreground">{card.duration}</p>
-                  </div>
-                  <div className="space-y-2">
-                    <Button 
-                      className="w-full" 
-                      onClick={() => setLocation(card.route)}
-                    >
-                      {card.actionText}
-                    </Button>
-                    <Button 
-                      variant="link" 
-                      className="w-full text-muted-foreground"
-                    >
-                      {card.skipText}
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          {/* Stats Section */}
-          <div className="grid gap-6 mb-8 md:grid-cols-2 lg:grid-cols-4">
-            {mockStats.map((stat) => (
-              <StatsCard key={stat.title} {...stat} />
-            ))}
-          </div>
-
-          {/* AI Recommendations Section */}
-          <div className="mb-8">
-            <h2 className="text-xl font-semibold mb-4">AI Recommendations</h2>
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {mockRecommendations.map((recommendation) => (
-                <AIRecommendationCard
-                  key={recommendation.title}
-                  {...recommendation}
-                  onAction={handleRecommendationAction}
-                />
+            {/* Quick Start Section */}
+            <div className="grid gap-4 sm:gap-6 mb-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+              {quickStartCards.map((card, index) => (
+                <Card key={index} className={cn(
+                  index === 0 ? "border-primary border-2" : "",
+                  "transition-transform hover:scale-[1.02]"
+                )}>
+                  <CardContent className="p-4 md:p-6 space-y-4">
+                    <div className="space-y-2">
+                      <h3 className="text-lg font-semibold">{card.title}</h3>
+                      <p className="text-sm text-muted-foreground">{card.description}</p>
+                      <p className="text-sm text-muted-foreground">{card.duration}</p>
+                    </div>
+                    <div className="space-y-2">
+                      <Button 
+                        className="w-full" 
+                        onClick={() => setLocation(card.route)}
+                      >
+                        {card.actionText}
+                      </Button>
+                      <Button 
+                        variant="link" 
+                        className="w-full text-muted-foreground"
+                      >
+                        {card.skipText}
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
               ))}
             </div>
-          </div>
 
-          {/* Recent Activity Section */}
-          <div className="grid gap-6 md:grid-cols-2">
-            <div>
-              <h2 className="text-lg font-semibold mb-4">Recent Websites</h2>
-              <div className="space-y-4">
-                {websites.map((website) => (
-                  <div
-                    key={website.id}
-                    className="p-4 border rounded-lg bg-card"
-                  >
-                    <h3 className="font-medium">{website.name}</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Template: {website.template}
-                    </p>
-                  </div>
+            {/* Stats Section */}
+            <div className="grid gap-4 sm:gap-6 mb-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+              {mockStats.map((stat) => (
+                <StatsCard key={stat.title} {...stat} />
+              ))}
+            </div>
+
+            {/* AI Recommendations Section */}
+            <div className="mb-8">
+              <h2 className="text-xl font-semibold mb-4">AI Recommendations</h2>
+              <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+                {mockRecommendations.map((recommendation) => (
+                  <AIRecommendationCard
+                    key={recommendation.title}
+                    {...recommendation}
+                    onAction={handleRecommendationAction}
+                  />
                 ))}
               </div>
             </div>
 
-            <div>
-              <h2 className="text-lg font-semibold mb-4">Active Campaigns</h2>
-              <div className="space-y-4">
-                {campaigns.map((campaign) => (
-                  <div
-                    key={campaign.id}
-                    className="p-4 border rounded-lg bg-card"
-                  >
-                    <h3 className="font-medium">{campaign.name}</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Type: {campaign.type}
-                    </p>
-                  </div>
-                ))}
+            {/* Recent Activity Section */}
+            <div className="grid gap-6 grid-cols-1 md:grid-cols-2">
+              <div>
+                <h2 className="text-lg font-semibold mb-4">Recent Websites</h2>
+                <div className="space-y-4">
+                  {websites.length > 0 ? (
+                    websites.map((website) => (
+                      <div
+                        key={website.id}
+                        className="p-4 border rounded-lg bg-card hover:bg-card/80 transition-colors"
+                      >
+                        <h3 className="font-medium">{website.name}</h3>
+                        <p className="text-sm text-muted-foreground">
+                          Template: {website.template}
+                        </p>
+                      </div>
+                    ))
+                  ) : (
+                    <Card>
+                      <CardContent className="p-4">
+                        <p className="text-muted-foreground">Your website will appear here once created.</p>
+                      </CardContent>
+                    </Card>
+                  )}
+                </div>
+              </div>
+
+              <div>
+                <h2 className="text-lg font-semibold mb-4">Active Campaigns</h2>
+                <div className="space-y-4">
+                  {campaigns.length > 0 ? (
+                    campaigns.map((campaign) => (
+                      <div
+                        key={campaign.id}
+                        className="p-4 border rounded-lg bg-card hover:bg-card/80 transition-colors"
+                      >
+                        <h3 className="font-medium">{campaign.name}</h3>
+                        <p className="text-sm text-muted-foreground">
+                          Type: {campaign.type}
+                        </p>
+                      </div>
+                    ))
+                  ) : (
+                    <Card>
+                      <CardContent className="p-4">
+                        <p className="text-muted-foreground">Start a campaign to see it listed here!</p>
+                      </CardContent>
+                    </Card>
+                  )}
+                </div>
               </div>
             </div>
           </div>
