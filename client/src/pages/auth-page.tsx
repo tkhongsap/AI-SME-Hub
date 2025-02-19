@@ -14,12 +14,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Separator } from "@/components/ui/separator";
 import { Loader2 } from "lucide-react";
+import { SiGoogle, SiGithub } from "react-icons/si";
 import { Redirect } from "wouter";
 
 export default function AuthPage() {
   const { user, loginMutation, registerMutation } = useAuth();
-  
+
   const loginForm = useForm<InsertUser>({
     resolver: zodResolver(insertUserSchema),
     defaultValues: { username: "", password: "" },
@@ -27,8 +29,18 @@ export default function AuthPage() {
 
   const registerForm = useForm<InsertUser>({
     resolver: zodResolver(insertUserSchema),
-    defaultValues: { username: "", password: "", companyName: "", industry: "" },
+    defaultValues: { 
+      username: "", 
+      password: "", 
+      companyName: "", 
+      industry: "" 
+    },
   });
+
+  // Mockup: These would be implemented with actual OAuth later
+  const handleSocialLogin = (provider: string) => {
+    console.log(`${provider} login clicked`);
+  };
 
   if (user) {
     return <Redirect to="/dashboard" />;
@@ -36,14 +48,48 @@ export default function AuthPage() {
 
   return (
     <div className="min-h-screen grid lg:grid-cols-2">
-      <div className="flex items-center justify-center p-8">
-        <Card className="w-full max-w-md">
-          <CardHeader>
-            <CardTitle className="text-2xl font-bold">Welcome to AI-SME Hub</CardTitle>
+      <div className="flex items-center justify-center p-8 bg-background">
+        <Card className="w-full max-w-md border-0 shadow-none">
+          <CardHeader className="space-y-1">
+            <CardTitle className="text-2xl font-bold">Welcome back</CardTitle>
+            <p className="text-sm text-muted-foreground">
+              Choose your preferred sign in method
+            </p>
           </CardHeader>
-          <CardContent>
-            <Tabs defaultValue="login">
-              <TabsList className="grid w-full grid-cols-2 mb-6">
+          <CardContent className="space-y-4">
+            {/* Social Login Buttons */}
+            <div className="grid gap-4">
+              <Button 
+                variant="outline" 
+                className="gap-2" 
+                onClick={() => handleSocialLogin('google')}
+              >
+                <SiGoogle className="w-4 h-4" />
+                Continue with Google
+              </Button>
+              <Button 
+                variant="outline" 
+                className="gap-2"
+                onClick={() => handleSocialLogin('github')}
+              >
+                <SiGithub className="w-4 h-4" />
+                Continue with GitHub
+              </Button>
+            </div>
+
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <Separator />
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-background px-2 text-muted-foreground">
+                  Or continue with
+                </span>
+              </div>
+            </div>
+
+            <Tabs defaultValue="login" className="space-y-4">
+              <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="login">Login</TabsTrigger>
                 <TabsTrigger value="register">Register</TabsTrigger>
               </TabsList>
@@ -56,9 +102,9 @@ export default function AuthPage() {
                       name="username"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Username</FormLabel>
+                          <FormLabel>Email</FormLabel>
                           <FormControl>
-                            <Input {...field} />
+                            <Input type="email" placeholder="you@company.com" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -71,7 +117,7 @@ export default function AuthPage() {
                         <FormItem>
                           <FormLabel>Password</FormLabel>
                           <FormControl>
-                            <Input type="password" {...field} />
+                            <Input type="password" placeholder="••••••••" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -79,7 +125,7 @@ export default function AuthPage() {
                     />
                     <Button type="submit" className="w-full" disabled={loginMutation.isPending}>
                       {loginMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                      Login
+                      Sign In
                     </Button>
                   </form>
                 </Form>
@@ -93,9 +139,9 @@ export default function AuthPage() {
                       name="username"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Username</FormLabel>
+                          <FormLabel>Work Email</FormLabel>
                           <FormControl>
-                            <Input {...field} />
+                            <Input type="email" placeholder="you@company.com" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -108,7 +154,7 @@ export default function AuthPage() {
                         <FormItem>
                           <FormLabel>Password</FormLabel>
                           <FormControl>
-                            <Input type="password" {...field} />
+                            <Input type="password" placeholder="••••••••" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -121,7 +167,7 @@ export default function AuthPage() {
                         <FormItem>
                           <FormLabel>Company Name</FormLabel>
                           <FormControl>
-                            <Input {...field} />
+                            <Input placeholder="Acme Inc." {...field} value={field.value || ""} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -134,7 +180,7 @@ export default function AuthPage() {
                         <FormItem>
                           <FormLabel>Industry</FormLabel>
                           <FormControl>
-                            <Input {...field} />
+                            <Input placeholder="Technology" {...field} value={field.value || ""} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -151,28 +197,35 @@ export default function AuthPage() {
           </CardContent>
         </Card>
       </div>
-      <div className="hidden lg:flex flex-col justify-center p-8 bg-primary text-white">
-        <div className="max-w-md mx-auto">
-          <h1 className="text-4xl font-bold mb-6">Empower Your SME with AI-Driven Growth</h1>
-          <p className="text-lg mb-8">
-            Build your online presence, automate marketing, and get insights—all in one platform.
+
+      <div className="hidden lg:flex flex-col justify-center p-12 bg-primary text-primary-foreground">
+        <div className="max-w-md mx-auto space-y-6">
+          <h1 className="text-4xl font-bold">Transform Your Business with AI</h1>
+          <p className="text-lg opacity-90">
+            Join thousands of SMEs using AI-SME Hub to automate tasks, gain insights, and grow their business.
           </p>
-          <div className="grid grid-cols-2 gap-6">
-            <div>
-              <h3 className="font-semibold mb-2">Website Builder</h3>
-              <p className="text-sm opacity-80">Create professional websites with AI assistance</p>
+          <div className="grid gap-6">
+            <div className="flex items-start gap-4">
+              <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center shrink-0">
+                <SiGoogle className="w-4 h-4" />
+              </div>
+              <div>
+                <h3 className="font-semibold">Marketing Automation</h3>
+                <p className="text-sm opacity-80">
+                  Create and optimize campaigns with AI assistance
+                </p>
+              </div>
             </div>
-            <div>
-              <h3 className="font-semibold mb-2">Marketing Tools</h3>
-              <p className="text-sm opacity-80">Automate your marketing campaigns</p>
-            </div>
-            <div>
-              <h3 className="font-semibold mb-2">Analytics</h3>
-              <p className="text-sm opacity-80">Track your performance with insights</p>
-            </div>
-            <div>
-              <h3 className="font-semibold mb-2">AI Assistant</h3>
-              <p className="text-sm opacity-80">Get personalized recommendations</p>
+            <div className="flex items-start gap-4">
+              <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center shrink-0">
+                <SiGithub className="w-4 h-4" />
+              </div>
+              <div>
+                <h3 className="font-semibold">Business Analytics</h3>
+                <p className="text-sm opacity-80">
+                  Get real-time insights and AI-powered recommendations
+                </p>
+              </div>
             </div>
           </div>
         </div>
