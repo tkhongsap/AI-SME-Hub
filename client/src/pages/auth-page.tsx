@@ -18,7 +18,7 @@ import { Separator } from "@/components/ui/separator";
 import { Loader2 } from "lucide-react";
 import { SiGoogle, SiFacebook, SiApple } from "react-icons/si";
 import { Redirect, useLocation } from "wouter";
-import React from 'react';
+import { useEffect } from 'react';
 
 export default function AuthPage() {
   const { user, loginMutation, registerMutation } = useAuth();
@@ -45,7 +45,7 @@ export default function AuthPage() {
   };
 
   // Redirect based on mutation success
-  React.useEffect(() => {
+  useEffect(() => {
     if (loginMutation.isSuccess) {
       setLocation('/welcome-back');
     }
