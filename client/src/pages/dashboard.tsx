@@ -4,12 +4,15 @@ import Sidebar from "@/components/layout/sidebar";
 import StatsCard from "@/components/dashboard/stats-card";
 import AIRecommendationCard from "@/components/dashboard/ai-recommendation-card";
 import { useToast } from "@/hooks/use-toast";
+import { useLocation } from "wouter";
 import {
   Users,
   Globe,
   BarChart2,
   Mail,
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 
 const mockStats = [
   {
@@ -42,29 +45,36 @@ const mockStats = [
   },
 ];
 
-const mockRecommendations = [
+const quickStartCards = [
   {
-    title: "Optimize Your Homepage",
-    description: "Add more compelling calls-to-action to increase conversions.",
-    impact: "Medium",
-    type: "website" as const,
+    title: "Create a form",
+    description: "Well-crafted forms collect and manage lead information efficiently to improve scoring quality and conversion rates.",
+    duration: "About 5 mins",
+    route: "/forms",
+    actionText: "Create form",
+    skipText: "Skip for now"
   },
   {
-    title: "Launch Email Campaign",
-    description: "Your customers haven't heard from you in a while.",
-    impact: "High",
-    type: "marketing" as const,
+    title: "Start building your website",
+    description: "Use AI to generate a single-page website customized to your business, or start from scratch.",
+    duration: "About 5 mins",
+    route: "/website-builder",
+    actionText: "Build website",
+    skipText: "Skip for now"
   },
   {
-    title: "Review Analytics",
-    description: "Your bounce rate has increased. Let's investigate why.",
-    impact: "High",
-    type: "analytics" as const,
-  },
+    title: "Connect & create ads",
+    description: "Target specific audiences to generate interest and drive higher-intent traffic to your specialised landing page.",
+    duration: "About 5 mins",
+    route: "/marketing",
+    actionText: "Create ads",
+    skipText: "Skip for now"
+  }
 ];
 
 export default function Dashboard() {
   const { toast } = useToast();
+  const [, setLocation] = useLocation();
 
   const { data: websites = [] } = useQuery<Website[]>({
     queryKey: ["/api/websites"],
@@ -93,19 +103,38 @@ export default function Dashboard() {
             </p>
           </div>
 
-          <div className="grid gap-6 mb-8 md:grid-cols-2 lg:grid-cols-4">
-            {mockStats.map((stat) => (
-              <StatsCard key={stat.title} {...stat} />
+          {/* Quick Start Section */}
+          <div className="grid gap-6 mb-8 md:grid-cols-2 lg:grid-cols-3">
+            {quickStartCards.map((card, index) => (
+              <Card key={index} className={index === 0 ? "border-primary border-2" : ""}>
+                <CardContent className="p-6 space-y-4">
+                  <div className="space-y-2">
+                    <h3 className="text-lg font-semibold">{card.title}</h3>
+                    <p className="text-sm text-muted-foreground">{card.description}</p>
+                    <p className="text-sm text-muted-foreground">{card.duration}</p>
+                  </div>
+                  <div className="space-y-2">
+                    <Button 
+                      className="w-full" 
+                      onClick={() => setLocation(card.route)}
+                    >
+                      {card.actionText}
+                    </Button>
+                    <Button 
+                      variant="link" 
+                      className="w-full text-muted-foreground"
+                    >
+                      {card.skipText}
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
             ))}
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-8">
-            {mockRecommendations.map((recommendation) => (
-              <AIRecommendationCard
-                key={recommendation.title}
-                {...recommendation}
-                onAction={handleRecommendationAction}
-              />
+          <div className="grid gap-6 mb-8 md:grid-cols-2 lg:grid-cols-4">
+            {mockStats.map((stat) => (
+              <StatsCard key={stat.title} {...stat} />
             ))}
           </div>
 
