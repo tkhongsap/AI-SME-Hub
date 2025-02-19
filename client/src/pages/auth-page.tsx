@@ -28,8 +28,7 @@ export default function AuthPage() {
     resolver: zodResolver(insertUserSchema),
     defaultValues: {
       username: "xyz@gmail.com",
-      password: "password",
-      companyName: "XYZ Company"
+      password: "password"
     },
   });
 
@@ -48,8 +47,7 @@ export default function AuthPage() {
     // For demo, directly login when clicking social buttons
     loginMutation.mutate({
       username: "xyz@gmail.com",
-      password: "password",
-      companyName: "XYZ Company"
+      password: "password"
     });
   };
 
